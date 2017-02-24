@@ -2,7 +2,7 @@
 <html ng-app="formioApp">
   <head>
     <meta charset="utf-8">
-    <title>Form.io: The combined Form and API platform.</title>
+    <title>GlobalForms</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -10,6 +10,8 @@
     <link href='https://fonts.googleapis.com/css?family=Vast+Shadow' rel='stylesheet' type='text/css'>
     <script src="https://maps.google.com/maps/api/js"></script>
     <script src="//cdn.ckeditor.com/4.5.9/standard/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/ace.js"></script>
+    <script src="http://www.sigplusweb.com/SigWebTablet.js"></script>
 
     <!-- build:css({.tmp/serve,src}) styles/app.css -->
     <!-- inject:css -->
@@ -36,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand logo" href="#" onclick="window.location.reload(true)"><img src="assets/images/formio-logo.png" /></a>
+          <a class="navbar-brand logo" href="#" onclick="window.location.reload(true)"><img src="assets/images/square9-logo.svg" /></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -48,7 +50,7 @@
         </div><!--/.nav-collapse -->
       </div><!--/.container -->
     </nav>
-    <div class="container">
+    <div class="container-fluid">
       <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)" ng-bind-html="alert.message"></div>
       <div ui-view></div>
     </div>
