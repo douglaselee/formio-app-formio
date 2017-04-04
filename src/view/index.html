@@ -213,6 +213,9 @@
                 if ( path && !form) {
                     form = baseUrl + path;
 
+                    if (query['x-jwt-token'])
+                      form += '?x-jwt-token=' + query['x-jwt-token'];
+
                     if (!$rootScope.login) {
                         $rootScope.login  = baseUrl + '/';
                         $rootScope.login += query.login ? query.login : 'user/login';
