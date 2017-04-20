@@ -258,7 +258,8 @@
 
                 $rootScope.$on('formError', function(event, error) {
                     $rootScope.formError = error;
-                    if (error.indexOf('Unauthorized')===0) {
+                    if (error.indexOf('Unauthorized' )===0
+                    ||  error.indexOf('Login Timeout')===0) {
                         $rootScope.formValidate = false;
                         Formio.setUser(null);
                     }
