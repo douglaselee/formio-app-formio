@@ -75,6 +75,24 @@
       ],
       "components": [
         {
+          "type": "textfield",
+          "persistent": true,
+          "unique": true,
+          "protected": false,
+          "defaultValue": "",
+          "suffix": "",
+          "prefix": "",
+          "placeholder": "Enter your name",
+          "key": "name",
+          "label": "Name",
+          "inputType": "text",
+          "tableView": true,
+          "validate": {
+            "required": true
+          },
+          "input": true
+        },
+        {
           "type": "email",
           "persistent": true,
           "unique": false,
@@ -100,6 +118,9 @@
           "label": "Password",
           "inputType": "password",
           "tableView": false,
+          "validate": {
+            "required": true
+          },
           "input": true
         },
         {
@@ -169,6 +190,24 @@
       ],
       "components": [
         {
+          "type": "textfield",
+          "persistent": true,
+          "unique": true,
+          "protected": false,
+          "defaultValue": "",
+          "suffix": "",
+          "prefix": "",
+          "placeholder": "Enter your name",
+          "key": "name",
+          "label": "Name",
+          "inputType": "text",
+          "tableView": true,
+          "validate": {
+            "required": true
+          },
+          "input": true
+        },
+        {
           "type": "email",
           "persistent": true,
           "unique": false,
@@ -194,6 +233,9 @@
           "label": "Password",
           "inputType": "password",
           "tableView": false,
+          "validate": {
+            "required": true
+          },
           "input": true
         },
         {
@@ -233,19 +275,22 @@
       ],
       "components": [
         {
-          "type": "email",
+          "type": "textfield",
           "persistent": true,
-          "unique": false,
+          "unique": true,
           "protected": false,
           "defaultValue": "",
           "suffix": "",
           "prefix": "",
-          "placeholder": "Enter your email address",
-          "key": "email",
+          "placeholder": "Enter your name",
+          "key": "name",
           "lockKey": true,
-          "label": "Email",
-          "inputType": "email",
+          "label": "Name",
+          "inputType": "text",
           "tableView": true,
+          "validate": {
+            "required": true
+          },
           "input": true
         },
         {
@@ -260,6 +305,9 @@
           "label": "Password",
           "inputType": "password",
           "tableView": false,
+          "validate": {
+            "required": true
+          },
           "input": true
         },
         {
@@ -297,6 +345,25 @@
       ],
       "components": [
         {
+          "type": "textfield",
+          "persistent": true,
+          "unique": true,
+          "protected": false,
+          "defaultValue": "",
+          "suffix": "",
+          "prefix": "",
+          "placeholder": "Enter your name",
+          "key": "name",
+          "lockKey": true,
+          "label": "Name",
+          "inputType": "text",
+          "tableView": true,
+          "validate": {
+            "required": true
+          },
+          "input": true
+        },
+        {
           "type": "email",
           "persistent": true,
           "unique": false,
@@ -324,6 +391,9 @@
           "label": "Password",
           "inputType": "password",
           "tableView": false,
+          "validate": {
+            "required": true
+          },
           "input": true
         },
         {
@@ -370,7 +440,7 @@
       "handler": ["before"],
       "settings": {
         "resources": ["user", "admin"],
-        "username": "email",
+        "username": "name",
         "password": "password"
       }
     },
@@ -384,6 +454,7 @@
       "settings": {
         "resource": "user",
         "fields": {
+          "name": "name",
           "email": "email",
           "password": "password"
         }
@@ -398,7 +469,7 @@
       "handler": ["before"],
       "settings": {
         "resources": ["user"],
-        "username": "email",
+        "username": "name",
         "password": "password"
       }
     },
