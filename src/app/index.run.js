@@ -26,7 +26,15 @@
         $rootScope.export = function($event) {
           if (!$rootScope.target) {
             $rootScope.target = $event.currentTarget;
-            Formio.makeStaticRequest(Formio.getApiUrl() + '/export', 'GET', null, {ignoreCache: true}).then(function (result) {
+            var _id = '0';
+            if (this.form) {
+              _id = this.form._id;
+            }
+            else
+            if (this.resource) {
+              _id = this.resource._id;
+            }
+            Formio.makeStaticRequest(Formio.getApiUrl() + '/export/' + _id, 'GET', null, {ignoreCache: true}).then(function (result) {
               $rootScope.template = JSON.stringify(result);
               $timeout(function() {
                 $rootScope.target.click();
