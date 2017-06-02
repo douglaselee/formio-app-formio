@@ -8,12 +8,14 @@
       'Formio',
       'AppConfig',
       'FormioAuth',
+      'ngDialog',
       function(
         $rootScope,
         $timeout,
         Formio,
         AppConfig,
-        FormioAuth
+        FormioAuth,
+        ngDialog
       ) {
         // Initialize the Form.io authentication system.
         FormioAuth.init();
@@ -43,6 +45,51 @@
             });
             $event.preventDefault();
           }
+        };
+
+        $rootScope.import = function($event) {
+          $event.preventDefault();
+          $event.target.blur(); // Clear blue box around Import
+
+          var template  = '<br>' +
+                          '<div class="row">' +
+                            '<div class="col-sm-12">' +
+                              '<div class="panel panel-default">' +
+                                '<div class="panel-heading">' +
+                                  '<h3 class="panel-title">{{ "Import" | formioTranslate}}</h3>' +
+                                '</div>' +
+                                '<div class="panel-body">' +
+                                  '<formio src="formUrl"></formio>' +
+                                '</div>' +
+                              '</div>' +
+                            '</div>' +
+                          '</div>';
+
+          ngDialog.open({
+            template: template,
+            plain: true,
+            scope: $rootScope,
+            controller: ['$scope', function($scope) {
+              $scope.formUrl = 'http://localhost:3001/form/592effbe2241044730052574/';
+
+              // Close dialog on successful import
+              $scope.$on('fileUploaded', function(event, fileName, fileInfo) {
+                $scope.closeThisDialog(fileInfo);
+              });
+
+              // Close dialog on unsuccessful import
+              $scope.$on('fileUploadFailed', function(event, fileName, response) {
+                $scope.closeThisDialog(response);
+              });
+
+              // Bind when the form is loaded.
+              $scope.$on('formLoad', function(event) {
+                event.stopPropagation(); // Don't confuse app
+              });
+            }]
+          }).closePromise.then(function(/*e*/) {
+          //var cancelled = e.value === false || e.value === '$closeButton' || e.value === '$document';
+          });
         };
       }
     ]);

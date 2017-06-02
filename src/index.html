@@ -49,6 +49,7 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li ng-if="authenticated"><a download="project.json" ng-click="export($event)" ng-href="data:text/json;charset=utf-8, {{template}}"><span class="glyphicon glyphicon-download" aria-hidden="true"></span> Export</a></li>
+            <li ng-if="authenticated"><a href="#" ng-click="import($event)"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Import</a></li>
             <li ng-if="authenticated"><a href="#" ng-click="logout()"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout</a></li>
           </ul>
         </div><!--/.nav-collapse -->
