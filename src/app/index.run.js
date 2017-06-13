@@ -8,6 +8,7 @@
       'Formio',
       'AppConfig',
       'FormioAuth',
+      'FormioAlerts',
       'ngDialog',
       function(
         $rootScope,
@@ -15,6 +16,7 @@
         Formio,
         AppConfig,
         FormioAuth,
+        FormioAlerts,
         ngDialog
       ) {
         // Initialize the Form.io authentication system.
@@ -75,11 +77,23 @@
               // Close dialog on successful import
               $scope.$on('fileUploaded', function(event, fileName, fileInfo) {
                 $scope.closeThisDialog(fileInfo);
+                FormioAlerts.getAlerts();
+                FormioAlerts.addAlert({
+                  type: 'success',
+                  message: 'File has been imported.'
+                });
               });
 
               // Close dialog on unsuccessful import
               $scope.$on('fileUploadFailed', function(event, fileName, response) {
                 $scope.closeThisDialog(response);
+                var error = JSON.parse(response);
+                FormioAlerts.getAlerts();
+                FormioAlerts.addAlert({
+                  type: 'danger',
+                  message: 'File has not been imported!'
+                });
+                FormioAlerts.onError(error);
               });
 
               // Bind when the form is loaded.
