@@ -61,7 +61,7 @@
                                   '<h3 class="panel-title">{{ "Import" | formioTranslate}}</h3>' +
                                 '</div>' +
                                 '<div class="panel-body">' +
-                                  '<formio src="formUrl"></formio>' +
+                                  '<formio form="form"></formio>' +
                                 '</div>' +
                               '</div>' +
                             '</div>' +
@@ -72,7 +72,42 @@
             plain: true,
             scope: $rootScope,
             controller: ['$scope', function($scope) {
-              $scope.formUrl = 'http://localhost:3001/form/592effbe2241044730052574/';
+              $scope.form = {
+                "title": "Form Import",
+                "type": "form",
+                "name": "formImport",
+                "path": "formimport",
+                "display": "form",
+                "tags": [
+                  "common"
+                ],
+                "components": [
+                  {
+                    "input": true,
+                    "tableView": true,
+                    "label": "File",
+                    "key": "file",
+                    "image": false,
+                    "imageSize": "200",
+                    "placeholder": "",
+                    "multiple": false,
+                    "defaultValue": "",
+                    "protected": false,
+                    "persistent": true,
+                    "hidden": false,
+                    "clearOnHide": true,
+                    "type": "file",
+                    "storage": "url",
+                    "url": Formio.getBaseUrl() + "/api/import",
+                    "tags": [],
+                    "conditional": {
+                      "eq": "",
+                      "when": null,
+                      "show": ""
+                    }
+                  }
+                ]
+              };
 
               // Close dialog on successful import
               $scope.$on('fileUploaded', function(event, fileName, fileInfo) {
