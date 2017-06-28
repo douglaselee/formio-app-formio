@@ -34,7 +34,7 @@
     "gulp-protractor": "~1.0.0",
     "gulp-sourcemaps": "~1.5.2",
     "gulp-s3": "^0.3.0",
-    "gulp-sass": "~2.0.1",
+    "gulp-sass": "~3.1.0",
     "gulp-angular-filesort": "~1.1.1",
     "main-bower-files": "~2.8.0",
     "merge-stream": "~0.1.7",
