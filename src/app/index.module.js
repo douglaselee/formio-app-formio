@@ -12,7 +12,6 @@
       'ngFormBuilderHelper',
       'bgf.paginateAnything',
       'formio',
-      'ngMap',
       'ngDialog'
     ]);
 })();

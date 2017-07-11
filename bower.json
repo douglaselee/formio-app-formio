@@ -8,7 +8,6 @@
     "angular-bootstrap": "^2.5.0",
     "moment": "^2.18.1",
     "angular": "^1.6.4",
-    "ngmap": "^1.18.0",
     "lodash": "^4.17.4",
     "bootstrap-sass": "^3.3.7",
     "angular-paginate-anything": "^4.2.0",
