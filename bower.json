@@ -18,8 +18,6 @@
     "font-awesome": "^4.7.0",
     "ng-formio-helper": "../../ng-formio-helper",
     "seamless": "^0.0.6",
-    "angular-ui-ace": "^0.2.3",
-    "ace-builds": "^1.2.5",
     "ng-dialog": "^1.0.1"
   },
   "resolutions": {
