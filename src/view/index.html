@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html class="no-js">
 <head>
     <meta charset="utf-8">
@@ -281,6 +281,14 @@
                         returnUrl += '&form=' + encodeURIComponent(form);
                         returnUrl += '&sub=' + submission._id;
                         window.location.href = returnUrl;
+                    }
+                    else {
+                        if (window.location.href.search(/\/submission\//) === -1) {
+                            window.location.href += '/submission/' + submission._id;
+                        }
+                        setTimeout(function() {
+                            window.location.reload(true);
+                        }, 1000);
                     }
                 });
 
