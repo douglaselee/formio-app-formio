@@ -1,5 +1,7 @@
 {
-  "Add Resource": "Add Resource Ragmop",
-  "Column Properties": "Column Properties Ragmop",
-  "Export JSON": "Export JSON Ragmop"
+  "Add Resource": "Add Resource (translated by renderer)",
+  "Column Properties": "Column Properties  (translated by builder)",
+  "Export JSON": "Export JSON  (translated by helper)",
+  "Resources": "Resources (translated by client)",
+  "Generate PDF":  "Generate PDF (translated by viewer)"
 }
