@@ -1,7 +1,10 @@
 {
   "Add Resource": "Add Resource (translated by renderer)",
-  "Column Properties": "Column Properties  (translated by builder)",
-  "Export JSON": "Export JSON  (translated by helper)",
+  "Column Properties": "Column Properties (translated by builder)",
+  "Export JSON": "Export JSON (translated by helper)",
   "Resources": "Resources (translated by client)",
-  "Generate PDF":  "Generate PDF (translated by viewer)"
+  "Generate PDF": "Generate PDF (translated by viewer)",
+  "The size of this button.": "The size of this button. (translated by tooltip)",
+  "ENGLISH": "English",
+  "FRENCH": "Francaise"
 }

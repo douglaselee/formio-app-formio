@@ -10,6 +10,7 @@
       'FormioAuth',
       'FormioAlerts',
       'ngDialog',
+      '$filter',
       function(
         $rootScope,
         $timeout,
@@ -17,8 +18,20 @@
         AppConfig,
         FormioAuth,
         FormioAlerts,
-        ngDialog
+        ngDialog,
+        $filter
       ) {
+        var stored = JSON.parse(localStorage.getItem("viewerSettings")) || {
+          LANGUAGE: {}
+        };
+        $rootScope.language = stored.LANGUAGE.language || "ENGLISH";
+        $rootScope.options  = ['ENGLISH', 'FRENCH', 'GERMAN', 'SPANISH', 'DUTCH', 'ITALIAN', 'PORTUGUESE', 'ROMANIAN'];
+        $rootScope.$watch('language', function(newValue, oldValue) {
+          if (newValue !== oldValue) {
+            $filter('formioTranslate').use($rootScope.language);
+          }
+        });
+
         // Initialize the Form.io authentication system.
         FormioAuth.init();
 
