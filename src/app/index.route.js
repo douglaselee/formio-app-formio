@@ -32,13 +32,13 @@
           ];
           $scope.resources = [];
           $scope.resourcesUrl = AppConfig.appUrl + '/form?type=resource';
-          $scope.resourcesUrlParams = {};
+          $scope.resourcesUrlParams = {tags__ne: 'hidden'};
           $scope.resourcesLoading = true;
           $scope.resourcesSearch = '';
           $scope.resourcesSearchType = 'name';
           $scope.forms = [];
           $scope.formsUrl = AppConfig.appUrl + '/form?type=form';
-          $scope.formsUrlParams = {};
+          $scope.formsUrlParams = {tags__ne: 'hidden'};
           $scope.formsLoading = true;
           $scope.formsSearch = '';
           $scope.formsSearchType = 'name';
@@ -52,7 +52,7 @@
             }
           });
           $scope.updateResourceSearch = function() {
-            var params = {};
+            var params = {tags__ne: 'hidden'};
             if ($scope.resourcesSearch.length > 0) {
               var paramName = $scope.resourcesSearchType+'__regex';
               params[paramName] = '/'+$scope.resourcesSearch+'/i';
@@ -60,7 +60,7 @@
             $scope.resourcesUrlParams = params;
           };
           $scope.updateFormSearch = function() {
-            var params = {};
+            var params = {tags__ne: 'hidden'};
             if ($scope.formsSearch.length > 0) {
               var paramName = $scope.formsSearchType+'__regex';
               params[paramName] = '/'+$scope.formsSearch+'/i';

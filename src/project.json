@@ -25,6 +25,7 @@
   },
   "resources": {
     "user": {
+      "tags": ["hidden"],
       "title": "User",
       "type": "resource",
       "name": "user",
@@ -140,6 +141,7 @@
       ]
     },
     "admin": {
+      "tags": ["hidden"],
       "title": "Admin",
       "type": "resource",
       "name": "admin",
@@ -257,6 +259,7 @@
   },
   "forms": {
     "userLogin": {
+      "tags": ["hidden"],
       "title": "User Login",
       "type": "form",
       "name": "userLogin",
@@ -327,6 +330,7 @@
       ]
     },
     "userRegister": {
+      "tags": ["hidden"],
       "title": "User Register",
       "name": "userRegister",
       "path": "user/register",
