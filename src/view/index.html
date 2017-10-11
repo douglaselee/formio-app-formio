@@ -145,7 +145,7 @@
     <div ng-cloak>
         <div class="alert alert-danger" ng-if="formError">{{ formError }}</div>
         <div ng-if="formValidate">
-            <a ng-if="hasSubmission" type="button" ng-click="generatePDF()" style="float:right;cursor:pointer;margin-top:-32px"><img src="assets/download-pdf.png" style="height:30px" /> {{ 'Generate PDF' | formioTranslate }}</a>
+            <a ng-if="pdfButton && hasSubmission" type="button" ng-click="generatePDF()" style="float:right;cursor:pointer;margin-top:-32px"><img src="assets/download-pdf.png" style="height:30px" /> {{ 'Generate PDF' | formioTranslate }}</a>
             <formio src="formioSrc" submission="submission" ng-class="{'formio-submission': hasSubmission}"></formio>
         </div>
         <div ng-if="!formValidate" style="margin-top: 20px;">
@@ -204,6 +204,7 @@
                 $rootScope.formioSrc    = '';
                 $rootScope.formValidate = true;
                 $rootScope.submission   = {data: {}};
+                $rootScope.pdfButton    = query.pdfbutton;
 
                 if (port)
                   baseUrl += ':' + port;
