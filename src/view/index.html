@@ -277,21 +277,27 @@
                     }
                     if (!submission) { return; }
                     parentPage.send({formSubmission: submission});
+
+                    //  Optional clear inputs on submission
+                    if ($location.search().clearonsubmit) {
+                        $rootScope.submission = {data: {}};
+                    }
+
                     if (returnUrl) {
-                        var hasQuery = !!returnUrl.match(/\?/);
-                        returnUrl += hasQuery ? '&' : '?';
-                        returnUrl += '&form=' + encodeURIComponent(form);
-                        returnUrl += '&sub=' + submission._id;
+                    //  var hasQuery = !!returnUrl.match(/\?/);
+                    //  returnUrl += hasQuery ? '&' : '?';
+                    //  returnUrl += '&form=' + encodeURIComponent(form);
+                    //  returnUrl += '&sub=' + submission._id;
                         window.location.href = returnUrl;
                     }
-                    else {
-                        if (window.location.href.search(/\/submission\//) === -1) {
-                            window.location.href += '/submission/' + submission._id;
-                        }
-                        setTimeout(function() {
-                            window.location.reload(true);
-                        }, 1000);
-                    }
+                //  else {
+                //      if (window.location.href.search(/\/submission\//) === -1) {
+                //          window.location.href += '/submission/' + submission._id;
+                //      }
+                //      setTimeout(function() {
+                //          window.location.reload(true);
+                //      }, 1000);
+                //  }
                 });
 
                 $rootScope.generatePDF = function () {
