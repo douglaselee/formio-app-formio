@@ -40,6 +40,18 @@
           $rootScope[form] = url;
         });
 
+        $rootScope.view = function() {
+          var url = $rootScope.userForm.replace('/user', '/view/#!/form/');
+          if (this.form) {
+            url += this.form._id;
+          }
+          else
+          if (this.resource) {
+            url += this.resource._id;
+          }
+          window.open(url);
+        };
+
         $rootScope.export = function($event) {
           if (!$rootScope.target) {
             $rootScope.target = $event.currentTarget;

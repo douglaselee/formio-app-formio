@@ -35,6 +35,7 @@
                 <div class="col-sm-4">
                   <div class="button-group pull-right" style="display:flex;">
                     <a ui-sref="form.edit({formId: resource._id})" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-edit"></span> Edit</a>&nbsp;
+                    <a class="btn btn-default btn-xs" ng-click="view($event)"><span class="glyphicon glyphicon-new-window"></span> View</a>&nbsp;
                     <a download="{{resource.title}}.json" class="btn btn-default btn-xs" ng-click="export($event)" ng-href="data:text/json;charset=utf-8, {{template}}"><span class="glyphicon glyphicon-download"></span> Export</a>&nbsp;
                     <a ui-sref="form.delete({formId: resource._id, formType: 'resource'})" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
                   </div>
@@ -93,6 +94,7 @@
                 <div class="col-sm-4">
                   <div class="button-group pull-right" style="display:flex;">
                     <a ui-sref="form.edit({formId: form._id})" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-edit"></span> Edit</a>&nbsp;
+                    <a class="btn btn-default btn-xs" ng-click="view($event)"><span class="glyphicon glyphicon-new-window"></span> View</a>&nbsp;
                     <a download="{{form.title}}.json" class="btn btn-default btn-xs" ng-click="export($event)" ng-href="data:text/json;charset=utf-8, {{template}}"><span class="glyphicon glyphicon-download"></span> Export</a>&nbsp;
                     <a ui-sref="form.delete({formId: form._id, formType: 'form'})" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
                   </div>
