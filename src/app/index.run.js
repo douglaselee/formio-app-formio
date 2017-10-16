@@ -49,7 +49,7 @@
           if (this.resource) {
             url += this.resource._id;
           }
-          window.open(url);
+          window.open(url + '?theme=yeti');
         };
 
         $rootScope.export = function($event) {
