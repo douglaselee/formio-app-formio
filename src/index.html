@@ -40,17 +40,16 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand logo" href="#" onclick="window.location.reload(true)"><img src="assets/images/square9-logo.svg" /></a>
+          <a class="navbar-brand logo" href="#" onclick="window.location.reload(true)"><b>Global Forms</b></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li ng-if="authenticated" class="active"><a href="#/">Home</a></li>
-          </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> Language:</a></li>
-            <li><select style="margin-top: 12px;" ng-model="language" ng-options="lang as lang | formioTranslate for lang in options"></select></li>
+            <li ng-if="authenticated"><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
             <li ng-if="authenticated"><a download="project.json" ng-click="export($event)" ng-href="data:text/json;charset=utf-8, {{template}}"><span class="glyphicon glyphicon-download" aria-hidden="true"></span> Export All</a></li>
             <li ng-if="authenticated"><a href="#" ng-click="import($event)"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Import</a></li>
             <li ng-if="authenticated"><a href="#" ng-click="logout()"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout</a></li>
+            <li><a><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> Language:</a></li>
+            <li><select style="margin-top: 12px;" ng-model="language" ng-options="lang as lang | formioTranslate for lang in options"></select></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div><!--/.container -->
