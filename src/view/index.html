@@ -53,6 +53,8 @@
                 <a class="navbar-brand" ng-cloak>{{ form.title }}</a>
             </div>
             <div class="collapse navbar-collapse">
+                <p ng-if="user !== ''" class="navbar-brand navbar-right" ng-cloak>Logged in as {{ user }}</p>
+                <p ng-if="user === ''" class="navbar-brand navbar-right" ng-cloak>Not logged in</p>
                 <p class="navbar-brand navbar-right"><img src="assets/square9-logo.svg" style="height: 30px"></p>
             </div>
         </div>
@@ -205,6 +207,7 @@
                 $rootScope.formValidate = true;
                 $rootScope.submission   = {data: {}};
                 $rootScope.pdfButton    = query.pdfbutton;
+                $rootScope.user         = Formio.getUser() ? Formio.getUser().data.name : '';
 
                 if (port)
                   baseUrl += ':' + port;
@@ -234,6 +237,9 @@
 
                 // Bind when the form is loaded.
                 $rootScope.$on('formLoad', function(err, form) {
+                    // Update logged in user
+                    $rootScope.user = Formio.getUser() ? Formio.getUser().data.name : '';
+
                     $rootScope.form = form;
                     if (
                         $rootScope.form.settings &&
