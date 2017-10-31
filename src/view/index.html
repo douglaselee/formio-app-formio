@@ -55,7 +55,7 @@
             <div class="collapse navbar-collapse">
                 <p ng-if="user !== ''" class="navbar-brand navbar-right" ng-cloak>Logged in as {{ user }}</p>
                 <p ng-if="user === ''" class="navbar-brand navbar-right" ng-cloak>Not logged in</p>
-                <p class="navbar-brand navbar-right"><img src="assets/square9-logo.svg" style="height: 30px"></p>
+                <p class="navbar-brand navbar-right"><img src="assets/square9-logo.svg" style="height: 30px" title="{{ version }}"></p>
             </div>
         </div>
     </nav>
@@ -213,6 +213,11 @@
                   baseUrl += ':' + port;
 
                 Formio.setBaseUrl(baseUrl);
+
+                // Get version
+                Formio.makeStaticRequest(Formio.getApiUrl() + '/version', 'GET', null, {ignoreCache: true}).then(function (result) {
+                  $rootScope.version = result;
+                });
 
                 if (!path && !form) { return; }
                 if ( path && !form) {

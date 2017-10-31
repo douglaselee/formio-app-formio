@@ -32,6 +32,11 @@
           }
         });
 
+        // Get version
+        Formio.makeStaticRequest(Formio.getApiUrl() + '/version', 'GET', null, {ignoreCache: true}).then(function (result) {
+          $rootScope.version = result;
+        });
+
         // Initialize the Form.io authentication system.
         FormioAuth.init();
 
