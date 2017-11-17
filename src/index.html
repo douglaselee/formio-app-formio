@@ -31,7 +31,7 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <nav class="navbar navbar-default navbar-static-top">
-      <div class="container">
+      <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -39,10 +39,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand logo" href="#" onclick="window.location.reload(true)"><img src="assets/images/square9-logo.svg" title="{{ version }}" /></a>
-          <a class="navbar-brand logo" href="#" onclick="window.location.reload(true)"><b>GlobalForms</b></a>
+          <a class="logo" href="#" onclick="window.location.reload(true)"><img src="assets/images/square9-logo.svg" title="{{ version }}" /></a>
+          <a class="text" href="#" onclick="window.location.reload(true)"><img src="assets/images/GlobalForms.svg"  title="{{ version }}" /></a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
+        <div id="navbar" class="navbar-collapse collapse lower">
           <ul class="nav navbar-nav navbar-right">
             <li ng-if="authenticated"><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
             <li ng-if="authenticated"><a download="project.json" ng-click="export($event)" ng-href="data:text/json;charset=utf-8, {{template}}"><span class="glyphicon glyphicon-download" aria-hidden="true"></span> Export All</a></li>
@@ -50,6 +50,7 @@
             <li ng-if="authenticated"><a href="#" ng-click="logout()"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout {{ user.data.name }}</a></li>
             <li><a><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> Language:</a></li>
             <li><select style="margin-top: 12px;" ng-model="language" ng-options="lang as lang | formioTranslate for lang in options"></select></li>
+            <li><a><span aria-hidden="true"></span> </a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div><!--/.container -->
