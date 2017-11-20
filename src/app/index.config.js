@@ -14,7 +14,7 @@
         $locationProvider
       ) {
         $locationProvider.hashPrefix('');
-        FormioProvider.setAppUrl(AppConfig.appUrl);
+        FormioProvider.setProjectUrl(AppConfig.appUrl);
         FormioProvider.setApiUrl(AppConfig.apiUrl);
         FormioAuthProvider.setForceAuth(true);
         FormioAuthProvider.setStates('auth.login', 'home');
