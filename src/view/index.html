@@ -213,6 +213,9 @@
 
                 Formio.setBaseUrl(baseUrl);
 
+                // Get anonymous role id for login required check when form loads
+                var accessPromise = Formio.makeStaticRequest(Formio.getApiUrl() + '/access');
+
                 // Get version
                 Formio.makeStaticRequest(Formio.getApiUrl() + '/version', 'GET', null, {ignoreCache: true}).then(function (result) {
                   $rootScope.version = result;
@@ -247,6 +250,25 @@
                     // Update logged in user
                     $rootScope.user = Formio.getUser() ? Formio.getUser().data.name : '';
 
+                    // Require login if anonymous reading or creation not allowed
+                    if (!$rootScope.user && form.path != 'user/login') {
+                        accessPromise.then(function(access) {
+                            var submission = new RegExp('/submission/').test(path);
+                            var permission = submission ? 'read_all' : 'create_own';
+                            var anonymous  = access.roles.anonymous._id;
+
+                            // Assume the worst
+                            $rootScope.formValidate = false;
+
+                            angular.forEach(form.submissionAccess, function(submissionAccess) {
+                                if (submissionAccess.type === permission
+                                &&  submissionAccess.roles.indexOf(anonymous) !== -1) {
+                                    $rootScope.formValidate = true;
+                                }
+                            });
+                        });
+                    }
+
                     $rootScope.form = form;
                     if (
                         $rootScope.form.settings &&
@@ -263,12 +285,13 @@
                         }
                     }
                 });
+
                 $rootScope.$on('submissionLoad', function(event, submission) {
                     // Check for substring 'submission' to enable the download pdf button.
                     var checkSubmissionURL = new RegExp("/submission/");
                     pdfName = submission._id;
                     $rootScope.hasSubmission = checkSubmissionURL.test(form);
-                    $rootScope.formValidate = !!Formio.getToken();
+                //  $rootScope.formValidate = !!Formio.getToken();
                 });
 
                 $rootScope.$on('formError', function(event, error) {
