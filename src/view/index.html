@@ -74,6 +74,11 @@
     if (bodyClass) {
         document.body.className = bodyClass;
     }
+
+    // So page loads for different forms or submissions
+    window.onhashchange = function(event) {
+        window.location.reload(true);
+    };
 </script>
 
 <!-- BROWSE HAPPY BEGINS HERE -->
