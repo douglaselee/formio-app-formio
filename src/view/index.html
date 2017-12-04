@@ -324,6 +324,11 @@
                         $rootScope.submission = {data: {}};
                     }
 
+                    //  Redirect to any returnUrl specified by Submit button script
+                    if ($rootScope.form.returnUrl) {
+                        returnUrl = $rootScope.form.returnUrl;
+                    }
+
                     if (returnUrl) {
                     //  var hasQuery = !!returnUrl.match(/\?/);
                     //  returnUrl += hasQuery ? '&' : '?';
