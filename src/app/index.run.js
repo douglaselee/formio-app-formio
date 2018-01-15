@@ -54,7 +54,7 @@
           if (this.resource) {
             url += this.resource._id;
           }
-          window.open(url + '?theme=yeti');
+          window.open(url);
         };
 
         $rootScope.export = function($event) {
@@ -152,18 +152,29 @@
               // Close dialog on unsuccessful import
               $scope.$on('fileUploadFailed', function(event, fileName, response) {
                 $scope.closeThisDialog(response);
-                var error = JSON.parse(response);
+                var errors = [];
+                try {
+                  errors = JSON.parse(response);
+                }
+                catch (exception) {
+                  errors.push({message: response});
+                }
                 FormioAlerts.getAlerts();
                 FormioAlerts.addAlert({
                   type: 'danger',
                   message: 'File has not been imported!'
                 });
-                FormioAlerts.onError(error);
+                angular.forEach(errors, function(error) {
+                  FormioAlerts.onError(error);
+                });
+              //$scope.targetScope.formioAlerts = $rootScope.alerts;
+              //$scope.targetScope.$apply();
               });
 
               // Bind when the form is loaded.
               $scope.$on('formLoad', function(event) {
                 event.stopPropagation(); // Don't confuse app
+              //$scope.targetScope = event.targetScope;
               });
             }]
           }).closePromise.then(function(/*e*/) {
