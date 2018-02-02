@@ -53,7 +53,7 @@
                 <p class="navbar-brand navbar-left"><img src="assets/square9-logo.svg" style="height: 50px; padding: 0 0 16px 0"   title="{{ version }}"></p>
                 <p class="navbar-brand navbar-left"><img src="assets/GlobalForms.svg"  style="height: 50px; padding: 6px 0 14px 0" title="{{ version }}"></p>
                 <p class="navbar-brand"              style="padding: 24px 0 0 30%" ng-cloak>{{ form.title }}</p>
-                <p class="navbar-brand navbar-right" style="padding: 24px 0 0 0"   ng-cloak ng-if="user !== ''">Logged in as {{ user }}</p>
+                <a class="navbar-brand navbar-right" style="padding: 24px 0 0 0"   ng-cloak ng-if="user !== ''" href="#" ng-click="logout($event)"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout {{ user }}</a>
                 <p class="navbar-brand navbar-right" style="padding: 24px 0 0 0"   ng-cloak ng-if="user === ''">Not logged in</p>
             </div>
         </div>
@@ -355,6 +355,14 @@
                 //      }, 1000);
                 //  }
                 });
+
+                $rootScope.logout = function(event) {
+                    event.preventDefault();
+                    Formio.logout();
+                    setTimeout(function() {
+                      window.location.reload(true);
+                   }, 1000);
+                };
 
                 $rootScope.generatePDF = function () {
                     var doc = new jsPDF({unit:'px', format:'a4'});
