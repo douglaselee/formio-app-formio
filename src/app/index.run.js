@@ -79,6 +79,34 @@
           }
         };
 
+        // Have server synchronize AD groups and users with Mongo roles and users
+        $rootScope.syncAD = function($event) {
+          $event.preventDefault();
+          if (!$rootScope.syncing) {
+            $rootScope.syncing = true;
+            FormioAlerts.getAlerts();
+            FormioAlerts.addAlert({
+              type: 'warning',
+              message: 'AD synchronization is in progress'
+            });
+            Formio.makeStaticRequest(Formio.getApiUrl() + '/adsync', 'POST', null, {ignoreCache: true}).then(function (result) {
+              FormioAlerts.getAlerts();
+              FormioAlerts.addAlert({
+                type: 'success',
+                message: result
+              });
+              $rootScope.syncing = false;
+            }, function(error) {
+              FormioAlerts.getAlerts();
+              FormioAlerts.addAlert({
+                type: 'danger',
+                message: error
+              });
+              $rootScope.syncing = false;
+            });
+          }
+        };
+
         $rootScope.import = function($event) {
           $event.preventDefault();
           $event.target.blur(); // Clear blue box around Import
