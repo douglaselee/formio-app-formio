@@ -252,6 +252,9 @@
 
                 // Bind when the form is loaded.
                 $rootScope.$on('formLoad', function(err, form) {
+                    // Show form title in page tab
+                    window.document.title = form.title;
+
                     // Update logged in user
                     $rootScope.user = Formio.getUser() ? Formio.getUser().data.name : '';
 
