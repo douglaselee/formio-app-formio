@@ -303,7 +303,9 @@
                 });
 
                 $rootScope.$on('formError', function(event, error) {
-                    $rootScope.formError = error;
+                    if (typeof error === 'string') {
+                      $rootScope.formError = error;
+                    }
                     if (error.indexOf('Unauthorized' )===0
                     ||  error.indexOf('Login Timeout')===0) {
                         $rootScope.formValidate = false;
@@ -332,22 +334,8 @@
                         returnUrl = $rootScope.form.returnUrl;
                     }
 
-                    if (returnUrl) {
-                    //  var hasQuery = !!returnUrl.match(/\?/);
-                    //  returnUrl += hasQuery ? '&' : '?';
-                    //  returnUrl += '&form=' + encodeURIComponent(form);
-                    //  returnUrl += '&sub=' + submission._id;
-
-                    //  Don't use returnUrl if just logged in
-                        var login = true;
-                        angular.forEach(submission.data, function(value, key) {
-                            if (key !== 'name' && key !== 'email') {
-                                login = false;
-                            }
-                        });
-                        if (!login) {
-                            window.location.href = returnUrl;
-                        }
+                    if (returnUrl && $rootScope.form.path !== 'user/login') {
+                        window.location.href = returnUrl;
                     }
                 //  else {
                 //      if (window.location.href.search(/\/submission\//) === -1) {
