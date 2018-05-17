@@ -119,7 +119,8 @@
                                   '<h3 class="panel-title">{{ "Import" | formioTranslate}}</h3>' +
                                 '</div>' +
                                 '<div class="panel-body">' +
-                                  '<formio form="form"></formio>' +
+                                //'<formio form="form"></formio>' +
+                                  '<formio src="src" submission="sub"></formio>' +
                                 '</div>' +
                               '</div>' +
                             '</div>' +
@@ -130,6 +131,8 @@
             plain: true,
             scope: $rootScope,
             controller: ['$scope', function($scope) {
+              $scope.src  = 'http://localhost:3001/form/5ae1d64e29dc983678801f06';
+              $scope.sub  = {data: {additions: [], collisions: [], messages: []}};
               $scope.form = {
                 "title": "Form Import",
                 "type": "form",
@@ -156,7 +159,7 @@
                     "clearOnHide": true,
                     "type": "file",
                     "storage": "url",
-                    "url": Formio.getBaseUrl() + "/api/import",
+                    "url": Formio.getBaseUrl() + "/project/5ad8f1bc2fb22d4850bc250d" + "/api/import",
                     "tags": [],
                     "conditional": {
                       "eq": "",
@@ -167,6 +170,74 @@
                 ]
               };
 
+              var hideButtons = function() {
+                angular.forEach($scope.form.components, function(component) {
+                  if (component.key === 'additions') {
+                      component.validate.minLength = 
+                      component.validate.maxLength = $scope.sub.data.additions.length;
+                  }
+                  if (component.key === 'collisions') {
+                      component.validate.minLength = 
+                      component.validate.maxLength = $scope.sub.data.collisions.length;
+                  }
+                  if (component.key === 'messages') {
+                      component.validate.minLength = 
+                      component.validate.maxLength = $scope.sub.data.messages.length;
+                  }
+                });
+              };
+
+              $scope.$on('formLoad', function(event, form) {
+                event.stopPropagation(); // Don't confuse app
+                $scope.form = form;
+                hideButtons();
+              });
+
+              $scope.$on('formSubmission', function(event, data) {
+                $scope.sub.data.additions.length  = 0;
+                $scope.sub.data.collisions.length = 0;
+                $scope.sub.data.messages.length   = 0;
+                if (data) {
+                  if (!Array.isArray(data)) {
+                    data = [data];
+                  }
+                  angular.forEach(data, function(item) {
+                    if (item.action && item.machineName && item.action === 'create') {
+                      $scope.sub.data.additions.push(item);
+                    }
+                    else
+                    if (item.action && item.machineName) {
+                      $scope.sub.data.collisions.push(item);
+                    }
+                    else {
+                      $scope.sub.data.messages.push(item);
+                    }
+                  });
+                }
+                else {
+                  $scope.sub.data.messages.push({message: 'File has been imported'});
+                }
+                hideButtons();
+              });
+              
+              // Clear collisions on successful file upload
+              $scope.$on('fileUploaded', function() {
+                $scope.sub.data.additions.length  = 0;
+                $scope.sub.data.collisions.length = 0;
+                $scope.sub.data.messages.length   = 0;
+                hideButtons();
+                $scope.$digest();
+              });
+
+              // Clear collisions on successful file upload
+              $scope.$on('fileRemoved', function() {
+                $scope.sub.data.additions.length  = 0;
+                $scope.sub.data.collisions.length = 0;
+                $scope.sub.data.messages.length   = 0;
+                hideButtons();
+              });
+
+              /*
               // Close dialog on successful import
               $scope.$on('fileUploaded', function(event, fileName, fileInfo) {
                 $scope.closeThisDialog(fileInfo);
@@ -204,6 +275,7 @@
                 event.stopPropagation(); // Don't confuse app
               //$scope.targetScope = event.targetScope;
               });
+              */
             }]
           }).closePromise.then(function(/*e*/) {
           //var cancelled = e.value === false || e.value === '$closeButton' || e.value === '$document';
