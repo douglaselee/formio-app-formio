@@ -131,8 +131,8 @@
             plain: true,
             scope: $rootScope,
             controller: ['$scope', function($scope) {
-              $scope.src  = 'http://localhost:3001/form/5ae1d64e29dc983678801f06';
-              $scope.sub  = {data: {additions: [], collisions: [], messages: []}};
+              $scope.src  = 'http://localhost:3001/improvedimport';
+              $scope.sub  = {data: {creates: [], updates: [], results: []}};
               $scope.form = {
                 "title": "Form Import",
                 "type": "form",
@@ -172,17 +172,17 @@
 
               var hideButtons = function() {
                 angular.forEach($scope.form.components, function(component) {
-                  if (component.key === 'additions') {
+                  if (component.key === 'creates') {
                       component.validate.minLength = 
-                      component.validate.maxLength = $scope.sub.data.additions.length;
+                      component.validate.maxLength = $scope.sub.data.creates.length;
                   }
-                  if (component.key === 'collisions') {
+                  if (component.key === 'updates') {
                       component.validate.minLength = 
-                      component.validate.maxLength = $scope.sub.data.collisions.length;
+                      component.validate.maxLength = $scope.sub.data.updates.length;
                   }
-                  if (component.key === 'messages') {
+                  if (component.key === 'results') {
                       component.validate.minLength = 
-                      component.validate.maxLength = $scope.sub.data.messages.length;
+                      component.validate.maxLength = $scope.sub.data.results.length;
                   }
                 });
               };
@@ -194,46 +194,46 @@
               });
 
               $scope.$on('formSubmission', function(event, data) {
-                $scope.sub.data.additions.length  = 0;
-                $scope.sub.data.collisions.length = 0;
-                $scope.sub.data.messages.length   = 0;
+                $scope.sub.data.creates.length = 0;
+                $scope.sub.data.updates.length = 0;
+                $scope.sub.data.results.length = 0;
                 if (data) {
                   if (!Array.isArray(data)) {
                     data = [data];
                   }
                   angular.forEach(data, function(item) {
                     if (item.action && item.machineName && item.action === 'create') {
-                      $scope.sub.data.additions.push(item);
+                      $scope.sub.data.creates.push(item);
                     }
                     else
                     if (item.action && item.machineName) {
-                      $scope.sub.data.collisions.push(item);
+                      $scope.sub.data.updates.push(item);
                     }
                     else {
-                      $scope.sub.data.messages.push(item);
+                      $scope.sub.data.results.push(item);
                     }
                   });
                 }
                 else {
-                  $scope.sub.data.messages.push({message: 'File has been imported'});
+                  $scope.sub.data.results.push({message: 'File has been imported'});
                 }
                 hideButtons();
               });
               
               // Clear collisions on successful file upload
               $scope.$on('fileUploaded', function() {
-                $scope.sub.data.additions.length  = 0;
-                $scope.sub.data.collisions.length = 0;
-                $scope.sub.data.messages.length   = 0;
+                $scope.sub.data.creates.length = 0;
+                $scope.sub.data.updates.length = 0;
+                $scope.sub.data.results.length = 0;
                 hideButtons();
                 $scope.$digest();
               });
 
               // Clear collisions on successful file upload
               $scope.$on('fileRemoved', function() {
-                $scope.sub.data.additions.length  = 0;
-                $scope.sub.data.collisions.length = 0;
-                $scope.sub.data.messages.length   = 0;
+                $scope.sub.data.creates.length = 0;
+                $scope.sub.data.updates.length = 0;
+                $scope.sub.data.results.length = 0;
                 hideButtons();
               });
 
