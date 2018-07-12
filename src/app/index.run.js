@@ -131,7 +131,7 @@
             plain: true,
             scope: $rootScope,
             controller: ['$scope', function($scope) {
-              $scope.src  = 'http://localhost:3001/improvedimport';
+              $scope.src  = Formio.getApiUrl() + '/improvedimport';
               $scope.sub  = {data: {creates: [], updates: [], results: []}};
               $scope.form = {
                 "title": "Form Import",
