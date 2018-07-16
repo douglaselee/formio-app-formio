@@ -190,6 +190,8 @@
               $scope.$on('formLoad', function(event, form) {
                 event.stopPropagation(); // Don't confuse app
                 $scope.form = form;
+                $scope.form.components[0].url = Formio.getApiUrl() + '/api/files';
+                $scope.form.components[4].url = Formio.getApiUrl() + '/api/import/improve';
                 hideButtons();
               });
 
