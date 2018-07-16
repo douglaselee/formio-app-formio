@@ -327,6 +327,8 @@
                     //  Optional clear inputs on submission
                     if ($location.search().clearonsubmit) {
                         $rootScope.submission = {data: {}};
+                        event.targetScope.$$childHead.formioForm.$setPristine();
+                        $rootScope.$broadcast('clearComponent');
                     }
 
                     //  Redirect to any returnUrl specified by Submit button script
