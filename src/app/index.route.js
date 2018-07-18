@@ -43,6 +43,14 @@
           $scope.formsSearch = '';
           $scope.formsSearchType = 'name';
           $scope.formsPerPage = 5;
+          try {
+            $scope.resourcesSearch     = localStorage.getItem('resourcesSearch')     || '';
+            $scope.resourcesSearchType = localStorage.getItem('resourcesSearchType') || 'name';
+            $scope.formsSearch         = localStorage.getItem('formsSearch')         || '';
+            $scope.formsSearchType     = localStorage.getItem('formsSearchType')     || 'name';
+          }
+          catch(exception) {
+          }
           $scope.$on('pagination:loadPage', function (event, status, config) {
             if (config.url.indexOf('type=resource') !== -1) {
               $scope.resourcesLoading = false;
@@ -58,6 +66,12 @@
               params[paramName] = '/'+$scope.resourcesSearch+'/i';
             }
             $scope.resourcesUrlParams = params;
+            try {
+              localStorage.setItem('resourcesSearch',     $scope.resourcesSearch);
+              localStorage.setItem('resourcesSearchType', $scope.resourcesSearchType);
+            }
+            catch(exception) {
+            }
           };
           $scope.updateFormSearch = function() {
             var params = {tags__ne: 'hidden'};
@@ -66,7 +80,15 @@
               params[paramName] = '/'+$scope.formsSearch+'/i';
             }
             $scope.formsUrlParams = params;
+            try {
+              localStorage.setItem('formsSearch',     $scope.formsSearch);
+              localStorage.setItem('formsSearchType', $scope.formsSearchType);
+            }
+            catch(exception) {
+            }
           };
+          $scope.updateResourceSearch();
+          $scope.updateFormSearch();
         }]
       });
 
