@@ -140,6 +140,17 @@
           });
         });
       }]
+    })
+    .state('importRefresh', {
+      url: '/importrefresh',
+      templateUrl: 'views/user/importrefresh.html',
+      controller: [
+        '$state',
+        function(
+          $state
+      ) {
+        $state.go('home');
+      }]
     });
 
     // Register the form builder provider.

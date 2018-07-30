@@ -11,6 +11,7 @@
       'FormioAlerts',
       'ngDialog',
       '$filter',
+      '$state',
       function(
         $rootScope,
         $timeout,
@@ -19,7 +20,8 @@
         FormioAuth,
         FormioAlerts,
         ngDialog,
-        $filter
+        $filter,
+        $state
       ) {
         var stored = JSON.parse(localStorage.getItem("viewerSettings")) || {
           LANGUAGE: {}
@@ -111,6 +113,10 @@
           $event.preventDefault();
           $event.target.blur(); // Clear blue box around Import
 
+          var improved  = $rootScope.hasAccess('improvedImport', ['create_own']);
+          var formio    = improved
+                        ? '<formio src="src" submission="sub"></formio>'
+                        : '<formio form="form"></formio>';
           var template  = '<br>' +
                           '<div class="row">' +
                             '<div class="col-sm-12">' +
@@ -119,8 +125,7 @@
                                   '<h3 class="panel-title">{{ "Import" | formioTranslate}}</h3>' +
                                 '</div>' +
                                 '<div class="panel-body">' +
-                                //'<formio form="form"></formio>' +
-                                  '<formio src="src" submission="sub"></formio>' +
+                                  formio +
                                 '</div>' +
                               '</div>' +
                             '</div>' +
@@ -131,158 +136,161 @@
             plain: true,
             scope: $rootScope,
             controller: ['$scope', function($scope) {
-              $scope.src  = Formio.getApiUrl() + '/improvedimport';
-              $scope.sub  = {data: {creates: [], updates: [], results: []}};
-              $scope.form = {
-                "title": "Form Import",
-                "type": "form",
-                "name": "formImport",
-                "path": "formimport",
-                "display": "form",
-                "tags": [
-                  "common"
-                ],
-                "components": [
-                  {
-                    "input": true,
-                    "tableView": true,
-                    "label": "File",
-                    "key": "file",
-                    "image": false,
-                    "imageSize": "200",
-                    "placeholder": "",
-                    "multiple": false,
-                    "defaultValue": "",
-                    "protected": false,
-                    "persistent": true,
-                    "hidden": false,
-                    "clearOnHide": true,
-                    "type": "file",
-                    "storage": "url",
-                    "url": Formio.getBaseUrl() + "/project/5ad8f1bc2fb22d4850bc250d" + "/api/import",
-                    "tags": [],
-                    "conditional": {
-                      "eq": "",
-                      "when": null,
-                      "show": ""
-                    }
-                  }
-                ]
-              };
+              if (improved) {
+                $scope.src  = Formio.getApiUrl() + '/improvedimport';
+                $scope.sub  = {data: {creates: [], updates: [], results: []}};
 
-              var hideButtons = function() {
-                angular.forEach($scope.form.components, function(component) {
-                  if (component.key === 'creates') {
-                      component.validate.minLength = 
-                      component.validate.maxLength = $scope.sub.data.creates.length;
-                  }
-                  if (component.key === 'updates') {
-                      component.validate.minLength = 
-                      component.validate.maxLength = $scope.sub.data.updates.length;
-                  }
-                  if (component.key === 'results') {
-                      component.validate.minLength = 
-                      component.validate.maxLength = $scope.sub.data.results.length;
-                  }
-                });
-              };
-
-              $scope.$on('formLoad', function(event, form) {
-                event.stopPropagation(); // Don't confuse app
-                $scope.form = form;
-                $scope.form.components[0].url = Formio.getApiUrl() + '/api/files';
-                $scope.form.components[4].url = Formio.getApiUrl() + '/api/import/improve';
-                hideButtons();
-              });
-
-              $scope.$on('formSubmission', function(event, data) {
-                $scope.sub.data.creates.length = 0;
-                $scope.sub.data.updates.length = 0;
-                $scope.sub.data.results.length = 0;
-                if (data) {
-                  if (!Array.isArray(data)) {
-                    data = [data];
-                  }
-                  angular.forEach(data, function(item) {
-                    if (item.action && item.machineName && item.action === 'create') {
-                      $scope.sub.data.creates.push(item);
+                var hideButtons = function() {
+                  angular.forEach($scope.form.components, function(component) {
+                    if (component.key === 'creates') {
+                        component.validate.minLength = 
+                        component.validate.maxLength = $scope.sub.data.creates.length;
                     }
-                    else
-                    if (item.action && item.machineName) {
-                      $scope.sub.data.updates.push(item);
+                    if (component.key === 'updates') {
+                        component.validate.minLength = 
+                        component.validate.maxLength = $scope.sub.data.updates.length;
                     }
-                    else {
-                      $scope.sub.data.results.push(item);
+                    if (component.key === 'results') {
+                        component.validate.minLength = 
+                        component.validate.maxLength = $scope.sub.data.results.length;
                     }
                   });
-                }
-                else {
-                  $scope.sub.data.results.push({message: 'File has been imported'});
-                }
-                hideButtons();
-              });
+                };
+
+                $scope.$on('formLoad', function(event, form) {
+                  event.stopPropagation(); // Don't confuse app
+                  $scope.form = form;
+                  $scope.form.components[0].url = Formio.getApiUrl() + '/api/files';
+                  $scope.form.components[4].url = Formio.getApiUrl() + '/api/import/improve';
+                  hideButtons();
+                });
+
+                $scope.$on('formSubmission', function(event, data) {
+                  $scope.sub.data.creates.length = 0;
+                  $scope.sub.data.updates.length = 0;
+                  $scope.sub.data.results.length = 0;
+                  if (data) {
+                    if (!Array.isArray(data)) {
+                      data = [data];
+                    }
+                    angular.forEach(data, function(item) {
+                      if (item.action && item.machineName && item.action === 'create') {
+                        $scope.sub.data.creates.push(item);
+                      }
+                      else
+                      if (item.action && item.machineName) {
+                        $scope.sub.data.updates.push(item);
+                      }
+                      else {
+                        $scope.sub.data.results.push(item);
+                      }
+                    });
+                  }
+                  else {
+                    $scope.sub.data.results.push({message: 'File has been imported'});
+                  }
+                  hideButtons();
+                });
               
-              // Clear collisions on successful file upload
-              $scope.$on('fileUploaded', function() {
-                $scope.sub.data.creates.length = 0;
-                $scope.sub.data.updates.length = 0;
-                $scope.sub.data.results.length = 0;
-                hideButtons();
-                $scope.$digest();
-              });
-
-              // Clear collisions on successful file upload
-              $scope.$on('fileRemoved', function() {
-                $scope.sub.data.creates.length = 0;
-                $scope.sub.data.updates.length = 0;
-                $scope.sub.data.results.length = 0;
-                hideButtons();
-              });
-
-              /*
-              // Close dialog on successful import
-              $scope.$on('fileUploaded', function(event, fileName, fileInfo) {
-                $scope.closeThisDialog(fileInfo);
-                FormioAlerts.getAlerts();
-                FormioAlerts.addAlert({
-                  type: 'success',
-                  message: 'File has been imported.'
+                // Clear collisions on successful file upload
+                $scope.$on('fileUploaded', function() {
+                  $scope.sub.data.creates.length = 0;
+                  $scope.sub.data.updates.length = 0;
+                  $scope.sub.data.results.length = 0;
+                  hideButtons();
+                  $scope.$digest();
                 });
-              });
 
-              // Close dialog on unsuccessful import
-              $scope.$on('fileUploadFailed', function(event, fileName, response) {
-                $scope.closeThisDialog(response);
-                var errors = [];
-                try {
-                  errors = JSON.parse(response);
-                }
-                catch (exception) {
-                  errors.push({message: response});
-                }
-                FormioAlerts.getAlerts();
-                FormioAlerts.addAlert({
-                  type: 'danger',
-                  message: 'File has not been imported!'
+                // Clear collisions on successful file upload
+                $scope.$on('fileRemoved', function() {
+                  $scope.sub.data.creates.length = 0;
+                  $scope.sub.data.updates.length = 0;
+                  $scope.sub.data.results.length = 0;
+                  hideButtons();
                 });
-                angular.forEach(errors, function(error) {
-                  FormioAlerts.onError(error);
-                });
-              //$scope.targetScope.formioAlerts = $rootScope.alerts;
-              //$scope.targetScope.$apply();
-              });
+              }
+              else {
+                $scope.form = {
+                  "title": "Form Import",
+                  "type": "form",
+                  "name": "formImport",
+                  "path": "formimport",
+                  "display": "form",
+                  "tags": [
+                    "common"
+                  ],
+                  "components": [
+                    {
+                      "input": true,
+                      "tableView": true,
+                      "label": "File",
+                      "key": "file",
+                      "image": false,
+                      "imageSize": "200",
+                      "placeholder": "",
+                      "multiple": false,
+                      "defaultValue": "",
+                      "protected": false,
+                      "persistent": true,
+                      "hidden": false,
+                      "clearOnHide": true,
+                      "type": "file",
+                      "storage": "url",
+                      "url": Formio.getBaseUrl() + "/api/import",
+                      "tags": [],
+                      "conditional": {
+                        "eq": "",
+                        "when": null,
+                        "show": ""
+                      }
+                    }
+                  ]
+                };
 
-              // Bind when the form is loaded.
-              $scope.$on('formLoad', function(event) {
-                event.stopPropagation(); // Don't confuse app
-              //$scope.targetScope = event.targetScope;
-              });
-              */
+                // Close dialog on successful import
+                $scope.$on('fileUploaded', function(event, fileName, fileInfo) {
+                  $scope.closeThisDialog(fileInfo);
+                  FormioAlerts.getAlerts();
+                  FormioAlerts.addAlert({
+                    type: 'success',
+                    message: 'File has been imported.'
+                  });
+                });
+
+                // Close dialog on unsuccessful import
+                $scope.$on('fileUploadFailed', function(event, fileName, response) {
+                  $scope.closeThisDialog(response);
+                  var errors = [];
+                  try {
+                    errors = JSON.parse(response);
+                  }
+                  catch (exception) {
+                    errors.push({message: response});
+                  }
+                  FormioAlerts.getAlerts();
+                  FormioAlerts.addAlert({
+                    type: 'danger',
+                    message: 'File has not been imported!'
+                  });
+                  angular.forEach(errors, function(error) {
+                    FormioAlerts.onError(error);
+                  });
+                //$scope.targetScope.formioAlerts = $rootScope.alerts;
+                //$scope.targetScope.$apply();
+                });
+
+                // Bind when the form is loaded.
+                $scope.$on('formLoad', function(event) {
+                  event.stopPropagation(); // Don't confuse app
+                //$scope.targetScope = event.targetScope;
+                });
+              }
             }]
           }).closePromise.then(function(/*e*/) {
           //var cancelled = e.value === false || e.value === '$closeButton' || e.value === '$document';
-          });
-        };
-      }
-    ]);
+          $state.go('importRefresh');
+        });
+      };
+    }
+  ]);
 })();
